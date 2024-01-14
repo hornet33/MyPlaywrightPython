@@ -2,12 +2,15 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 
 
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=False, slow_mo=500)
     context = browser.new_context()
     page = context.new_page()
 
+    # Username variable
+    user_name = "symon.storozhenko"  # Name of the Udemy instructor :-)
+
     # Set the default timeout at the page level (similar to implicit wait)
-    page.set_default_timeout(30000)
+    page.set_default_timeout(30000)  # 30 seconds timeout set
 
     page.goto("https://symonstorozhenko.wixsite.com/website-1")
 
@@ -17,7 +20,7 @@ def run(playwright: Playwright) -> None:
     page.get_by_test_id("signUp.switchToSignUp").click()
     page.get_by_role("button", name="Log in with Email").click()
     page.get_by_test_id("emailAuth").get_by_label("Email").click()
-    page.get_by_test_id("emailAuth").get_by_label("Email").fill("symon.storozhenko@gmail.com")
+    page.get_by_test_id("emailAuth").get_by_label("Email").fill(f"{user_name}@gmail.com")
     page.get_by_test_id("emailAuth").get_by_label("Email").press("Tab")
     page.get_by_label("Password").fill("test123")
     page.get_by_test_id("submit").get_by_test_id("buttonElement").click()
@@ -28,8 +31,11 @@ def run(playwright: Playwright) -> None:
     expect(page.get_by_role("button", name="Log In")).to_be_hidden()
 
     # Navigate to the My Orders section
-    page.get_by_label("symon.storozhenko account menu").click()
+    page.get_by_label(f"{user_name} account menu").click()
     page.get_by_role("link", name="My Orders").click()
+
+    # Assertion - username should be displayed
+    expect(page.get_by_text(f"{user_name}", exact=True)).to_be_visible()
 
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
