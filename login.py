@@ -2,7 +2,7 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 
 
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False, slow_mo=500)
+    browser = playwright.chromium.launch(headless=False, slow_mo=50)
     context = browser.new_context()
     page = context.new_page()
 
@@ -36,6 +36,16 @@ def run(playwright: Playwright) -> None:
 
     # Assertion - username should be displayed
     expect(page.get_by_text(f"{user_name}", exact=True)).to_be_visible()
+
+    # Chaining of locators
+    product = page.get_by_text('$85').first.locator('xpath=../../../../..//h3').text_content()
+    assert product != 'Socks'
+
+    # Using the all() function to get a list of all webelements (similar to 'findElements')
+    list_of_links = page.get_by_role("link").all()
+    for link in list_of_links:
+        if link.text_content() == '$85':
+            assert 'socks' not in link.text_content().lower()
 
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
