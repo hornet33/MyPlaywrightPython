@@ -1,10 +1,14 @@
 from playwright.sync_api import Playwright, sync_playwright, expect
+from page_objects.home_page_objects import HomePage
 
 
 def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False, slow_mo=50)
+    browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
+
+    # Initializing the home page object
+    home_page = HomePage(page)
 
     # Username variable
     user_name = "symon.storozhenko"  # Name of the Udemy instructor :-)
@@ -16,19 +20,29 @@ def run(playwright: Playwright) -> None:
 
     page.wait_for_load_state(state="networkidle")  # This is like a wait statement in Playwright
 
-    page.get_by_role("button", name="Log In").click()
-    page.get_by_test_id("signUp.switchToSignUp").click()
-    page.get_by_role("button", name="Log in with Email").click()
-    page.get_by_test_id("emailAuth").get_by_label("Email").click()
-    page.get_by_test_id("emailAuth").get_by_label("Email").fill(f"{user_name}@gmail.com")
-    page.get_by_test_id("emailAuth").get_by_label("Email").press("Tab")
-    page.get_by_label("Password").fill("test123")
-    page.get_by_test_id("submit").get_by_test_id("buttonElement").click()
+    # page.get_by_role("button", name="Log In").click()
+    # page.get_by_test_id("signUp.switchToSignUp").click()
+    # page.get_by_role("button", name="Log in with Email").click()
+    # page.get_by_test_id("emailAuth").get_by_label("Email").click()
+    # page.get_by_test_id("emailAuth").get_by_label("Email").fill(f"{user_name}@gmail.com")
+    # page.get_by_test_id("emailAuth").get_by_label("Email").press("Tab")
+    # page.get_by_label("Password").fill("test123")
+    # page.get_by_test_id("submit").get_by_test_id("buttonElement").click()
+
+    # Replacing the above steps with the home_page POM locators
+    home_page.login.click()
+    home_page.signup.click()
+    home_page.login_email.click()
+    home_page.email_input.click()
+    home_page.email_input.fill(f"{user_name}@gmail.com")
+    home_page.email_input.press("Tab")
+    home_page.password_input.fill("test123")
+    home_page.login_submit.click()
 
     page.wait_for_load_state(state="networkidle")
 
     # Assertion - Log In button should be hidden after successful login
-    expect(page.get_by_role("button", name="Log In")).to_be_hidden()
+    expect(home_page.login).to_be_hidden()
 
     # Chaining of locators
     product = page.get_by_text('$85').first.locator('xpath=../../../../..//h3').text_content()
@@ -43,14 +57,16 @@ def run(playwright: Playwright) -> None:
 
     # Navigate to the My Orders section
     page.get_by_label(f"{user_name} account menu").click()
-    page.get_by_role("link", name="My Orders").click()
+    # page.get_by_role("link", name="My Orders").click()
+    home_page.my_orders.click()
 
     # Assertion - username should be displayed
     expect(page.get_by_text(f"{user_name}", exact=True)).to_be_visible()
 
     # Logout
     page.get_by_label(f"{user_name} account menu").click()
-    page.get_by_text("Log Out").click()
+    # page.get_by_text("Log Out").click()
+    home_page.logout.click()
 
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
