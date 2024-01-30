@@ -11,10 +11,10 @@ def run(playwright: Playwright) -> None:
     contact_us_page = ContactUs(page)
 
     contact_us_page.navigate()
-
     expect(contact_us_page.name_field).to_be_visible()
-
-    contact_us_page.submit_form("Test")
+    contact_us_page.fill_form("Test", "Address", "abc@def.com", "1234567890",
+                              "Test Sub", "This is a test message.")
+    contact_us_page.submit_form()
 
     # Just to print a message at the end of a successful run
     print("Test Run Completed")

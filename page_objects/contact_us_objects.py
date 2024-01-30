@@ -13,11 +13,13 @@ class ContactUs:
     def navigate(self):
         self.page.goto("https://symonstorozhenko.wixsite.com/website-1/contact")
 
-    def submit_form(self, text):
-        self.name_field.fill("Test Name")
-        self.address_field.fill("Test Address")
-        self.email_field.fill("abc@test.com")
-        self.phone_field.fill("1234567890")
-        self.subject_field.fill("Test Subject")
-        self.msg_field.fill("Test Message 123")
+    def fill_form(self, name, address, email, phone, subject, msg):
+        self.name_field.fill(name)
+        self.address_field.fill(address)
+        self.email_field.fill(email)
+        self.phone_field.fill(phone)
+        self.subject_field.fill(subject)
+        self.msg_field.fill(msg)
+
+    def submit_form(self):
         self.submit_btn.click()
