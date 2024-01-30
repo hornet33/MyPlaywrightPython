@@ -24,6 +24,6 @@ def test_contact_us_run(playwright: Playwright) -> None:
     browser.close()
 
 
-@pytest.mark.skip  # This is a pytest annotation/marker to skip this test during execution
+@pytest.mark.skip(reason="Demo only")  # This is a pytest annotation/marker to skip this test during execution
 def test_demo_run(playwright: Playwright) -> None:
     print("This is just a pytest mark.skip demo function - doesn't do anything")
