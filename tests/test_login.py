@@ -1,7 +1,11 @@
 from playwright.sync_api import Playwright, expect
 from page_objects.home_page_objects import HomePage
+import pytest
 
 
+# Using a custom pytest marker 'smoke' for smoke tests in my suite
+# To execute specific markers from CLI: pytest -m <nameOfMarker>
+@pytest.mark.smoke
 def test_login_run(playwright: Playwright) -> None:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()

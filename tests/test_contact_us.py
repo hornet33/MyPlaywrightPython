@@ -3,6 +3,9 @@ from page_objects.contact_us_objects import ContactUs
 import pytest
 
 
+# Using a custom pytest marker 'smoke' for smoke tests in my suite
+# To execute specific markers from CLI: pytest -m <nameOfMarker>
+@pytest.mark.smoke
 def test_contact_us_run(playwright: Playwright) -> None:
     browser = playwright.chromium.launch(headless=False, slow_mo=50)
     context = browser.new_context()
