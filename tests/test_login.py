@@ -24,16 +24,6 @@ def test_login_run(playwright: Playwright) -> None:
 
     page.wait_for_load_state(state="networkidle")  # This is like a wait statement in Playwright
 
-    # page.get_by_role("button", name="Log In").click()
-    # page.get_by_test_id("signUp.switchToSignUp").click()
-    # page.get_by_role("button", name="Log in with Email").click()
-    # page.get_by_test_id("emailAuth").get_by_label("Email").click()
-    # page.get_by_test_id("emailAuth").get_by_label("Email").fill(f"{user_name}@gmail.com")
-    # page.get_by_test_id("emailAuth").get_by_label("Email").press("Tab")
-    # page.get_by_label("Password").fill("test123")
-    # page.get_by_test_id("submit").get_by_test_id("buttonElement").click()
-
-    # Replacing the above steps with the home_page POM locators
     home_page.login.click()
     home_page.signup.click()
     home_page.login_email.click()
