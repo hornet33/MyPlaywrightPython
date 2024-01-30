@@ -24,6 +24,21 @@ def test_contact_us_run(playwright: Playwright) -> None:
     browser.close()
 
 
-@pytest.mark.skip(reason="Demo only")  # This is a pytest annotation/marker to skip this test during execution
-def test_demo_run(playwright: Playwright) -> None:
+@pytest.mark.skip(reason="Skip demo only")  # This pytest annotation/marker is to skip this test during execution
+def test_skip_demo(playwright: Playwright) -> None:
     print("This is just a pytest mark.skip demo function - doesn't do anything")
+
+
+@pytest.mark.xfail(reason="XFail demo only")  # This pytest marker is to mark tests which are expected to fail
+def test_xfail_demo(playwright: Playwright) -> None:
+    browser = playwright.chromium.launch(headless=False, slow_mo=50)
+    context = browser.new_context()
+    page = context.new_page()
+
+    # Initializing the page object
+    contact_us_page = ContactUs(page)
+    contact_us_page.navigate()
+    expect(contact_us_page.name_field).to_be_hidden()  # Expect() will fail
+
+    context.close()
+    browser.close()
