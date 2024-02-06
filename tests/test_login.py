@@ -6,7 +6,10 @@ import pytest
 # Using a custom pytest marker 'smoke' for smoke tests in my suite
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
-def test_login_run(set_up) -> None:
+@pytest.mark.parametrize("email, password",
+                         [("symon.storozhenko@gmail.com", "test123"),
+                          pytest.param("invalidemail", "invalidpwd", marks=pytest.mark.xfail)])
+def test_login_run(set_up, email, password) -> None:
     page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
     # Initializing the home page object
@@ -14,9 +17,6 @@ def test_login_run(set_up) -> None:
 
     # Username variable
     user_name = "symon.storozhenko"  # Name of the Udemy instructor :-)
-
-    # Set the default timeout at the page level (similar to implicit wait)
-    page.set_default_timeout(30000)  # 30 seconds timeout set
 
     page.goto("https://symonstorozhenko.wixsite.com/website-1")
 
@@ -26,9 +26,9 @@ def test_login_run(set_up) -> None:
     home_page.signup.click()
     home_page.login_email.click()
     home_page.email_input.click()
-    home_page.email_input.fill(f"{user_name}@gmail.com")
+    home_page.email_input.fill(email)
     home_page.email_input.press("Tab")
-    home_page.password_input.fill("test123")
+    home_page.password_input.fill(password)
     home_page.login_submit.click()
 
     page.wait_for_load_state(state="networkidle")
