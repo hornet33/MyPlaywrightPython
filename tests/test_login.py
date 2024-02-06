@@ -7,9 +7,6 @@ import pytest
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
 def test_login_run(set_up) -> None:
-    # browser = playwright.chromium.launch(headless=False)
-    # context = browser.new_context()
-    # page = context.new_page()
     page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
     # Initializing the home page object

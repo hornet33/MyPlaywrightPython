@@ -7,10 +7,7 @@ import pytest
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
 def test_contact_us_run(set_up) -> None:
-    # browser = playwright.chromium.launch(headless=False, slow_mo=50)
-    # context = browser.new_context()
-    # page = context.new_page()
-    page = set_up
+    page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
     # Initializing the page object
     contact_us_page = ContactUs(page)
@@ -30,16 +27,13 @@ def test_contact_us_run(set_up) -> None:
 
 
 @pytest.mark.skip(reason="Skip demo only")  # This pytest annotation/marker is to skip this test during execution
-def test_skip_demo(set_up) -> None:
+def test_skip_demo() -> None:
     print("This will never be printed - just a pytest mark.skip demo function that doesn't do anything")
 
 
 @pytest.mark.xfail(reason="XFail demo only")  # This pytest marker is to mark tests which are expected to fail
 def test_xfail_demo(set_up) -> None:
-    # browser = playwright.chromium.launch(headless=False, slow_mo=50)
-    # context = browser.new_context()
-    # page = context.new_page()
-    page = set_up
+    page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
     # Initializing the page object
     contact_us_page = ContactUs(page)
