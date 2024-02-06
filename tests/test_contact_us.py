@@ -1,4 +1,4 @@
-from playwright.sync_api import Playwright, expect
+from playwright.sync_api import expect
 from page_objects.contact_us_objects import ContactUs
 import pytest
 
@@ -6,10 +6,11 @@ import pytest
 # Using a custom pytest marker 'smoke' for smoke tests in my suite
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
-def test_contact_us_run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False, slow_mo=50)
-    context = browser.new_context()
-    page = context.new_page()
+def test_contact_us_run(set_up) -> None:
+    # browser = playwright.chromium.launch(headless=False, slow_mo=50)
+    # context = browser.new_context()
+    # page = context.new_page()
+    page = set_up
 
     # Initializing the page object
     contact_us_page = ContactUs(page)
@@ -24,20 +25,21 @@ def test_contact_us_run(playwright: Playwright) -> None:
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
     # ---------------------
-    context.close()
-    browser.close()
+    # context.close()
+    # browser.close()
 
 
 @pytest.mark.skip(reason="Skip demo only")  # This pytest annotation/marker is to skip this test during execution
-def test_skip_demo(playwright: Playwright) -> None:
+def test_skip_demo(set_up) -> None:
     print("This will never be printed - just a pytest mark.skip demo function that doesn't do anything")
 
 
 @pytest.mark.xfail(reason="XFail demo only")  # This pytest marker is to mark tests which are expected to fail
-def test_xfail_demo(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False, slow_mo=50)
-    context = browser.new_context()
-    page = context.new_page()
+def test_xfail_demo(set_up) -> None:
+    # browser = playwright.chromium.launch(headless=False, slow_mo=50)
+    # context = browser.new_context()
+    # page = context.new_page()
+    page = set_up
 
     # Initializing the page object
     contact_us_page = ContactUs(page)
@@ -45,5 +47,5 @@ def test_xfail_demo(playwright: Playwright) -> None:
     page.wait_for_load_state(state="networkidle")  # This is like a wait statement in Playwright
     expect(contact_us_page.name_field).to_be_hidden()  # Expect() will fail
 
-    context.close()
-    browser.close()
+    # context.close()
+    # browser.close()

@@ -1,4 +1,4 @@
-from playwright.sync_api import Playwright, expect
+from playwright.sync_api import expect
 from page_objects.home_page_objects import HomePage
 import pytest
 
@@ -6,10 +6,11 @@ import pytest
 # Using a custom pytest marker 'smoke' for smoke tests in my suite
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
-def test_login_run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
-    page = context.new_page()
+def test_login_run(set_up) -> None:
+    # browser = playwright.chromium.launch(headless=False)
+    # context = browser.new_context()
+    # page = context.new_page()
+    page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
     # Initializing the home page object
     home_page = HomePage(page)
@@ -65,5 +66,5 @@ def test_login_run(playwright: Playwright) -> None:
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
     # ---------------------
-    context.close()
-    browser.close()
+    # context.close()
+    # browser.close()
