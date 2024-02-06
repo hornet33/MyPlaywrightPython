@@ -22,8 +22,6 @@ def test_contact_us_run(set_up) -> None:
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
     # ---------------------
-    # context.close()
-    # browser.close()
 
 
 @pytest.mark.skip(reason="Skip demo only")  # This pytest annotation/marker is to skip this test during execution
@@ -40,6 +38,3 @@ def test_xfail_demo(set_up) -> None:
     contact_us_page.navigate()
     page.wait_for_load_state(state="networkidle")  # This is like a wait statement in Playwright
     expect(contact_us_page.name_field).to_be_hidden()  # Expect() will fail
-
-    # context.close()
-    # browser.close()

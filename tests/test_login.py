@@ -63,5 +63,3 @@ def test_login_run(set_up) -> None:
     # Just to print a message at the end of a successful run
     print("Test Run Completed")
     # ---------------------
-    # context.close()
-    # browser.close()
