@@ -6,9 +6,18 @@ import pytest
 # Using a custom pytest marker 'smoke' for smoke tests in my suite
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
 @pytest.mark.smoke
-@pytest.mark.parametrize("email, password",
-                         [("symon.storozhenko@gmail.com", "test123"),
-                          pytest.param("invalidemail", "invalidpwd", marks=pytest.mark.xfail)])
+#  @pytest.mark.parametrize("email, password",
+#                         [("symon.storozhenko@gmail.com", "test123"),
+#                          pytest.param("invalidemail", "invalidpwd", marks=pytest.mark.xfail)])
+# Instead of 1 parametrize function as shown above, we can stack them as follows:
+@pytest.mark.parametrize("email",
+                         ["symon.storozhenko@gmail.com",
+                          pytest.param("invalidemail", marks=pytest.mark.xfail)])
+@pytest.mark.parametrize("password",
+                         ["test123",
+                          pytest.param("invalidpwd", marks=pytest.mark.xfail)])
+# Difference is the second "stacking" parametrize will run multiple combinations for the parameters defined
+# Email1 with Pwd1, then Email1 with Pwd2, then Email2 with Pwd1, and finally Email2 with Pwd2
 def test_login_run(set_up, email, password) -> None:
     page = set_up  # Getting the page instance from the set_up fixture in conftest.py
 
