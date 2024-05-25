@@ -1,4 +1,6 @@
 from playwright.sync_api import expect
+
+import utils.secrets
 from page_objects.home_page_objects import HomePage
 import pytest
 
@@ -14,7 +16,7 @@ import pytest
                          ["symon.storozhenko@gmail.com",
                           pytest.param("invalidemail", marks=pytest.mark.xfail)])
 @pytest.mark.parametrize("password",
-                         ["test123",
+                         [utils.secrets.PASSWORD,
                           pytest.param("invalidpwd", marks=pytest.mark.xfail)])
 # Difference is the second "stacking" parametrize will run multiple combinations for the parameters defined
 # Email1 with Pwd1, then Email1 with Pwd2, then Email2 with Pwd1, and finally Email2 with Pwd2
