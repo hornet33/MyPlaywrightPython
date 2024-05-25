@@ -3,6 +3,9 @@ from playwright.sync_api import expect
 from page_objects.home_page_objects import HomePage
 import pytest
 
+# The try/except block is used to check if os.environ returns a successful password (in case of Github secret)
+# If not, it will initialize PASSWORD var to the local utils.secrets.PASSWORD value (in case of local run)
+# This is to ensure that the script runs on both local as well as remote (Github actions) successfully.
 try:
     PASSWORD = os.environ['PASSWORD']
 except KeyError:
