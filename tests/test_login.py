@@ -3,16 +3,22 @@ from playwright.sync_api import expect
 from page_objects.home_page_objects import HomePage
 import pytest
 
-# The try/except block is used to check if os.environ returns a successful password (in case of Github secret)
-# If not, it will initialize PASSWORD var to the local utils.secrets.PASSWORD value (in case of local run)
+# To toggle between local/remote runs - there are two ways
+# ------------ OPTION 1 ------------
+# Save the password in a local file (here it is in utils/secrets.py)
+# Then use a try/except block to check if os.environ returns a successful password (in case of Github secret)
+# If not, initialize PASSWORD var to the local utils.secrets.PASSWORD value (in case of local run)
 # This is to ensure that the script runs on both local as well as remote (Github actions) successfully.
-try:
-    PASSWORD = os.environ['PASSWORD']
-except KeyError:
-    import utils.secrets
-
-    PASSWORD = utils.secrets.PASSWORD
-
+# try:
+#     PASSWORD = os.environ['PASSWORD']
+# except KeyError:
+#     import utils.secrets
+#
+#     PASSWORD = utils.secrets.PASSWORD
+# ------------ OPTION 2 ------------
+# Use a local env variable in the ".env" file
+# Then a single os.environ statement will work in both local & remote runs
+PASSWORD = os.environ['PASSWORD']
 
 # Using a custom pytest marker 'smoke' for smoke tests in my suite
 # To execute specific markers from CLI: pytest -m <nameOfMarker>
